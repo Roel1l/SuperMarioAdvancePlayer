@@ -13,10 +13,8 @@ if (Process.GetProcessesByName("VisualBoyAdvance-M").FirstOrDefault() is not Pro
 
 App.GameBoyHandle = gameboy.MainWindowHandle;
 
-Console.WriteLine("5 seconds before starting");
-await Task.Delay(5000);
-
 SetForegroundWindow(App.GameBoyHandle);
+App.PressKey(KeyConstants.Run);
 var cancellationTokenSource = new CancellationTokenSource();
 
 await new GeneticAlgorithm().ExecuteAsync(cancellationTokenSource.Token);

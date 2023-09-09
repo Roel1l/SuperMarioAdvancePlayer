@@ -13,8 +13,8 @@ internal class DeadDetector
     private readonly int _gameboyX;
     private readonly int _gameboyY;
 
-    private readonly Bitmap _deadMarioInLevel = new("Images/dead_mario_face.bmp");
-    private readonly Bitmap _deadMarioInOverworld = new("Images/dead_mario_overworld.bmp");
+    private readonly Bitmap _deadMarioInLevel = new("Resources/dead_mario_face.bmp");
+    private readonly Bitmap _deadMarioInOverworld = new("Resources/dead_mario_overworld.bmp");
 
     internal delegate void MarioDiedCallback();
     public event MarioDiedCallback? MarioDied;

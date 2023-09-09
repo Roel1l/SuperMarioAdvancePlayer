@@ -2,6 +2,7 @@
 
 public static class KeyConstants
 {
+    public const byte Run = 0x4B;
     public const byte Jump = 0x4C;
     public const byte Left = 0x41;
     public const byte Right = 0x44;

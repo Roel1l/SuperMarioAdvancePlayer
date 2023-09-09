@@ -8,7 +8,7 @@ internal class Run
 
     public Action[] Actions { get; set; }
 
-    private Run() 
+    public Run() 
     { 
         Actions = new Action[AmountOfActionsPerRun];
     }
@@ -38,13 +38,13 @@ internal class Run
 
         for (int i = 0; i < AmountOfActionsPerRun; i++)
         {
-            var randomNumber = App.Random.Next(1, 101);
+            var randomNumber = App.Random.Next(1, 1001);
 
-            if (randomNumber < 49)
+            if (randomNumber < 500)
             {
                 actions[i] = Action.FromAction(mom.Actions[i]);
             }
-            else if (randomNumber < 98)
+            else if (randomNumber < 999)
             {
                 actions[i] = Action.FromAction(dad.Actions[i]);
             }
@@ -86,11 +86,8 @@ internal class Run
 
     public int Fitness()
     {
-        var fitness = 0;
-
-        fitness -= Dead ? 5 : 0;
-        fitness += Actions.Count(action => action.Executed);
-        fitness += Actions.Count(action => action.IsWalkRightAction()) * 2;
+        var fitness = Dead ? 0 : 5;
+        fitness += Actions.Count(action => action.Executed && action.IsWalkRightAction());
 
         return fitness;
     }

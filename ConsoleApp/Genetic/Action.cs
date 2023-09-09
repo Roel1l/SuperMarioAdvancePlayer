@@ -3,12 +3,12 @@
 internal class Action
 {
     private int ActionLength { get; set; } = 100;
-    private byte Input { get; init; }
 
+    public byte Input { get; init; }
     public string InputName { get; init; } = string.Empty;
     public bool Executed { get; private set; }
 
-    private Action() { }
+    public Action() { }
 
     public static Action FromRandom()
     {

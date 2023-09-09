@@ -10,10 +10,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\dead_mario_face.bmp" />
-    <None Remove="Images\dead_mario_overworld.bmp" />
-    <None Remove="Images\screen_alive.bmp" />
-    <None Remove="Images\screen_dead.bmp" />
+    <None Remove="Resources\dead_mario_face.bmp" />
+    <None Remove="Resources\dead_mario_overworld.bmp" />
+    <None Remove="Resources\screen_alive.bmp" />
+    <None Remove="Resources\screen_dead.bmp" />
   </ItemGroup>
 
   <ItemGroup>
@@ -21,19 +21,19 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\dead_mario_face.bmp">
+    <EmbeddedResource Include="Resources\dead_mario_face.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Images\dead_mario_overworld.bmp">
+    <EmbeddedResource Include="Resources\dead_mario_overworld.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
-    <EmbeddedResource Include="Images\screen_dead.bmp">
+    <EmbeddedResource Include="Resources\screen_dead.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Images\screen_alive.bmp">
+    <EmbeddedResource Include="Resources\screen_alive.bmp">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>

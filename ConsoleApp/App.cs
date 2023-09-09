@@ -36,12 +36,12 @@ internal static class App
         SendKeys.SendWait(KeyConstants.F2);
     }
 
-    private static void PressKey(byte key)
+    public static void PressKey(byte key)
     {
         keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY, 0);
     }
 
-    private static void ReleaseKey(byte key)
+    public static void ReleaseKey(byte key)
     {
         keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY | KEYEVENTF_KEYUP, 0);
     }
