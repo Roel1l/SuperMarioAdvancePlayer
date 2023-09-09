@@ -2,7 +2,7 @@
 
 internal class Run
 {
-    private const int AmountOfActionsPerRun = 300;
+    private const int AmountOfActionsPerRun = 400;
 
     private bool Dead { get; set; }
 

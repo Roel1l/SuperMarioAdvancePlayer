@@ -2,7 +2,6 @@
 using ConsoleApp.Genetic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Threading;
 
 [DllImport("User32.dll")]
 static extern int SetForegroundWindow(IntPtr point);
@@ -13,13 +12,14 @@ if (Process.GetProcessesByName("VisualBoyAdvance-M").FirstOrDefault() is not Pro
 }
 
 App.GameBoyHandle = gameboy.MainWindowHandle;
-SetForegroundWindow(App.GameBoyHandle);
 
+Console.WriteLine("5 seconds before starting");
+await Task.Delay(5000);
+
+SetForegroundWindow(App.GameBoyHandle);
 var cancellationTokenSource = new CancellationTokenSource();
 
 await new GeneticAlgorithm().ExecuteAsync(cancellationTokenSource.Token);
-
-Console.ReadKey();
 
 cancellationTokenSource.Cancel();
 
