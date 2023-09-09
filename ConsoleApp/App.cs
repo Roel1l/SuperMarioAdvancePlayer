@@ -9,16 +9,21 @@ internal static class App
     const uint KEYEVENTF_KEYUP = 0x0002;
     const uint KEYEVENTF_EXTENDEDKEY = 0x0001;
 
-    public static Task HoldKeyForFramesAsync(byte key, int amountOfFrames = 1) => HoldKeysForFramesAsync(new [] { key }, amountOfFrames);
+    public static IntPtr GameBoyHandle { get; set; }
 
-    public static async Task HoldKeysForFramesAsync(byte[] keys, int amountOfFrames = 1)
+    public static Random Random { get; } = new Random();
+
+    public static Task HoldKeyAsync(byte key, int amountOfFrames = 1, CancellationToken cancellationToken = default) => 
+        HoldKeysAsync(new [] { key }, amountOfFrames, cancellationToken);
+
+    public static async Task HoldKeysAsync(byte[] keys, int amountOfFrames = 1, CancellationToken cancellationToken = default)
     {
         foreach (var key in keys)
         {
             PressKey(key);
         }
 
-        await Task.Delay(amountOfFrames);
+        await Task.Delay(amountOfFrames, cancellationToken);
 
         foreach (var key in keys)
         {
@@ -28,12 +33,12 @@ internal static class App
 
     public static void LoadSaveState()
     {
-        SendKeys.SendWait(KeyConstants.F1);
+        SendKeys.SendWait(KeyConstants.F2);
     }
 
     private static void PressKey(byte key)
     {
-        keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY | 0, 0);
+        keybd_event(key, 0, KEYEVENTF_EXTENDEDKEY, 0);
     }
 
     private static void ReleaseKey(byte key)

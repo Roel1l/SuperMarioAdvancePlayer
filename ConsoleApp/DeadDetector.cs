@@ -1,5 +1,4 @@
 ﻿using AForge.Imaging;
-using System.Diagnostics;
 using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
 
@@ -9,19 +8,23 @@ internal class DeadDetector
 {
     private const float deathDetectionThreshold = 0.9f;
 
-    private readonly Process _gameboy;
-
     private readonly int _gameboyWidth;
     private readonly int _gameboyHeight;
     private readonly int _gameboyX;
     private readonly int _gameboyY;
 
-    public DeadDetector(Process gameboy)
-    {
-        _gameboy = gameboy;
+    private readonly Bitmap _deadMarioInLevel = new("Images/dead_mario_face.bmp");
+    private readonly Bitmap _deadMarioInOverworld = new("Images/dead_mario_overworld.bmp");
 
+    internal delegate void MarioDiedCallback();
+    public event MarioDiedCallback? MarioDied;
+
+    private readonly CancellationTokenSource _cancellationTokenSource = new CancellationTokenSource();
+
+    public DeadDetector()
+    {
         var rect = new User32.Rect();
-        User32.GetWindowRect(_gameboy.MainWindowHandle, ref rect);
+        User32.GetWindowRect(App.GameBoyHandle, ref rect);
 
         _gameboyWidth = rect.right - rect.left;
         _gameboyHeight = rect.bottom - rect.top;
@@ -29,14 +32,22 @@ internal class DeadDetector
         _gameboyY = rect.top;
     }
 
-    public async Task StartAsync(CancellationToken cancellationToken)
+    public void Start()
     {
         var timer = new PeriodicTimer(TimeSpan.FromMilliseconds(500));
 
-        while (await timer.WaitForNextTickAsync(cancellationToken))
+        _ = Task.Run(async () =>
         {
-            DetectIfMarioDied();
-        }
+            while (await timer.WaitForNextTickAsync(_cancellationTokenSource.Token))
+            {
+                DetectIfMarioDied();
+            }
+        });
+    }
+
+    public void Stop()
+    {
+        _cancellationTokenSource.Cancel();
     }
 
     private Bitmap TakeImageOfGameboy()
@@ -53,14 +64,12 @@ internal class DeadDetector
     private void DetectIfMarioDied()
     {
         Bitmap sourceImage = TakeImageOfGameboy();
-        Bitmap targetImage = new Bitmap("images/dead_mario_face.bmp");
 
         ExhaustiveTemplateMatching tm = new ExhaustiveTemplateMatching(deathDetectionThreshold);
-        TemplateMatch[] matches = tm.ProcessImage(sourceImage, targetImage);
 
-        if (matches.Any())
+        if (tm.ProcessImage(sourceImage, _deadMarioInLevel).Any())
         {
-            Console.WriteLine("Mario died!");
+            MarioDied?.Invoke();
         }
     }
 
